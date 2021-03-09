@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fetch API</title>
+    <script>
+        function getMovies() {
+            const keyword = document.querySelector('.keyword');
+            const url = 'http://www.omdbapi.com/?apikey=dca61bcc&s=' + keyword.value;
+            return fetch(url, {
+                method: "GET"
+            })
+            
+            .then(res => {
+                return res.json();
+            });
+        }
+
+        function clearMovies() {
+            const movieUl = document.getElementById("movies");
+            movieUl.textContent = "";
+        }
+
+        function displayMovie(movie) {
+            // const movieLi = document.createElement("li");
+            // movieLi.textContent = movie.Title;
+
+            // const movieUl = document.getElementById("movies");
+            // movieUl.appendChild(movieLi);
+
+            let output = "<tr></tr>"
+
+        }
+
+        function buttonClick() {
+            const promise = getMovies();
+            promise
+                .then(value => {
+                    return value.Search;
+                })
+
+                .then(movies => {
+                    clearMovies();
+                    movies.forEach(movie => {
+                        displayMovie(movie);
+                    })
+                })
+                .catch(error => {
+                    alert(error.message);
+                })
+                .finally(() => {
+                    console.log("Selesai memproses Promise");
+                })
+        }
+    </script>
+
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" class="keyword">
+    <button onclick="buttonClick()">Search Movies</button>
+    <ul id="movies"></ul>
+    <table class="table"></table>
+</body>
+</html>
